@@ -1,0 +1,49 @@
+# ping-grpc service
+#
+# syntax = "proto3";
+# package sp.rpc;
+#
+# import "google/protobuf/empty.proto";
+# service PingService {
+#     rpc Ping(google.protobuf.Empty) returns (google.protobuf.Empty);
+# }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ping-grpc
+  namespace: lab-test
+  labels:
+    app: ping-grpc
+spec:
+  ports:
+  - port: 10005
+    name: grpc
+  selector:
+    app: ping-grpc
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping-grpc
+  namespace: lab-test
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ping-grpc
+  template:
+    metadata:
+      labels:
+        app: ping-grpc
+    spec:
+      containers:
+      - name: ping-grpc
+        image: docker.io/spmanueljurado/ping-grpc:latest
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 10005
