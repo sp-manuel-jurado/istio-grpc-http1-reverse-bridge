@@ -33,6 +33,12 @@ func main() {
 
 	http.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
 		log.Printf("/ping called!")
+		//w.Header().Set("Content-Type", "application/json")
+		//w.WriteHeader(http.StatusOK)
+		//_, err := w.Write([]byte("{}"))
+		//if err != nil {
+		//	panic(err)
+		//}
 	})
 
 	log.Printf("http server in localhost:" + addr + " started")
