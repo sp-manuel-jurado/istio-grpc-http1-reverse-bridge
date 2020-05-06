@@ -21,7 +21,7 @@ metadata:
   namespace: lab-test
 spec:
   hosts:
-    - domain.com
+    - "*"
   gateways:
     - lab-test
   http:
@@ -30,7 +30,7 @@ spec:
             prefix: /sp.rpc.PingService
       route:
         - destination:
-            host: ping-http # ping-http (change ping-grpc by ping-http to check envoy filter reverse bridge)
+            host: ping-http # ping-grpc (change by ping-http to check envoy filter reverse bridge)
     - match:
         - uri:
             prefix: /

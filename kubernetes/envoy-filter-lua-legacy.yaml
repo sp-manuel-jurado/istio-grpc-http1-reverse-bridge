@@ -1,0 +1,21 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ping-http-lua
+  namespace: lab-test
+spec:
+  workloadLabels:
+    app: ping-http
+  filters:
+    - listenerMatch:
+        portNumber: 8888
+        listenerType: SIDECAR_INBOUND
+        listenerProtocol: HTTP
+      filterName: envoy.lua
+      filterType: HTTP
+      filterConfig:
+        inlineCode: |
+          function envoy_on_response(response_handle)
+            response_handle:headers():add("foo", "bar")
+          end

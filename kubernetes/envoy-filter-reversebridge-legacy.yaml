@@ -1,0 +1,19 @@
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ping-http-reverse-bridge
+  namespace: lab-test
+spec:
+  workloadLabels:
+    app: ping-http
+  filters:
+    - listenerMatch:
+        portNumber: 8888
+        listenerType: SIDECAR_INBOUND
+        listenerProtocol: HTTP
+      filterName: envoy.filters.http.grpc_http1_reverse_bridge
+      filterType: HTTP
+      filterConfig:
+        contentType: application/grpc+proto
+        withholdGrpcFrames: true
